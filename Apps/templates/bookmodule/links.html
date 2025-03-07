@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links Page</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+    <!-- Link Container with Light Green Background -->
+    <div class="link-container" id="light-green-container">
+        <a href="https://www.qu.edu.sa" target="_blank" class="link">Go to QU website (open a new tab)</a>
+    </div>
+    
+    <!-- Link Container with Dark Gray Background -->
+    <div class="link-container" id="dark-gray-container">
+        <a href="https://www.qu.edu.sa" class="link">Go to QU website (open in the same page/tab)</a>
+    </div>
+
+    <!-- Link Container with Black Background -->
+    <div class="link-container" id="black-container">
+        <a href="https://www.qu.edu.sa" class="link">Go to QU website (open in the same page/tab)</a>
+    </div>
+</body>
+</html>
