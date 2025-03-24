@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Book
+
 
 def index(request):
     return render(request, "bookmodule/index.html")
@@ -50,7 +52,7 @@ def search(request):
         string = request.POST.get('keyword').lower()
         isTitle = request.POST.get('option1')
         isAuthor = request.POST.get('option2')
-        # now filter
+
         books = __getBooksList()
         newBooks = []
         for item in books:
@@ -64,14 +66,29 @@ def search(request):
 
 
 def __getBooksList():
-    book1 = {'id':12344321, 'title':'Continuous Delivery', 'author':'J.Humble and D. Farley'}
-    book2 = {'id':56788765,'title':'Reversing: Secrets of Reverse Engineering', 'author':'E. Eilam'}
-    book3 = {'id':43211234, 'title':'The Hundred-Page Machine Learning Book', 'author':'Andriy Burkov'}
+    book1 = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley',price=120, edition = 3)
+    book1.save()
+    book2 = Book(title = 'Reversing: Secrets of Reverse Engineer', author = 'E.Eilam',price=97, edition = 2)
+    book2.save()
+    book3 = Book(title = 'The Hundred-Page Machine Learning Book', author = 'Andriy Burkov',price=100, edition = 4)
+    book3.save()
     return [book1, book2, book3]
 
 def book(request):
     return render(request, 'bookmodule/bookList.html',{'books':__getBooksList()})
 
+
+def simple_query(request):
+    mybooks=Book.objects.filter(title__icontains='and') # <- multiple objects
+    return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+
+
+def complex_query(request):
+    mybooks=books=Book.objects.filter(author__isnull = False).filter(title__icontains='and').filter(edition__gte = 2).exclude(price__lte = 100)[:10]
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
 
  
 
